@@ -41,6 +41,30 @@ const getSingleProduct = async (req: Request, res: Response) => {
   }
 };
 
+const updateProduct = async (req: Request, res: Response) => {
+  try {
+    const { productId } = req.params;
+    const productData = req.body;
+
+    const result = await productServices.updateProductInDB(
+      productId,
+      productData,
+    );
+
+    res.status(200).json({
+      message: 'Product updated successfully',
+      status: true,
+      data: result,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message || 'Resource not found!',
+      error: error,
+    });
+  }
+};
+
 const deleteProduct = async (req: Request, res: Response) => {
   try {
     const { productId } = req.params;
@@ -50,7 +74,7 @@ const deleteProduct = async (req: Request, res: Response) => {
     res.status(200).json({
       message: 'Product deleted successfully',
       status: true,
-      data: {},
+      data: result,
     });
   } catch (error) {
     res.status(500).json({
@@ -64,5 +88,6 @@ const deleteProduct = async (req: Request, res: Response) => {
 export const productControllers = {
   createProduct,
   getSingleProduct,
+  updateProduct,
   deleteProduct,
 };
