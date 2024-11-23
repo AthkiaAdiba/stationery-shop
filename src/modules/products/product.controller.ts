@@ -14,8 +14,28 @@ const createProduct = async (req: Request, res: Response) => {
     });
   } catch (error) {
     res.status(500).json({
-      success: false,
       message: error.message || 'Something went wrong!',
+      success: false,
+      error: error,
+    });
+  }
+};
+
+const getAllProducts = async (req: Request, res: Response) => {
+  try {
+    const searchTerm = req.query.searchTerm as string;
+
+    const result = await productServices.getAllProductsFromDB(searchTerm);
+
+    res.status(200).json({
+      message: 'Products retrieved successfully',
+      status: true,
+      data: result,
+    });
+  } catch (error: unknown) {
+    res.status(500).json({
+      success: false,
+      message: error.message || 'Resource not found!',
       error: error,
     });
   }
@@ -74,7 +94,7 @@ const deleteProduct = async (req: Request, res: Response) => {
     res.status(200).json({
       message: 'Product deleted successfully',
       status: true,
-      data: result,
+      data: {},
     });
   } catch (error) {
     res.status(500).json({
@@ -88,6 +108,7 @@ const deleteProduct = async (req: Request, res: Response) => {
 export const productControllers = {
   createProduct,
   getSingleProduct,
+  getAllProducts,
   updateProduct,
   deleteProduct,
 };
