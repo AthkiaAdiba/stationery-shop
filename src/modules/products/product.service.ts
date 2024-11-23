@@ -8,7 +8,6 @@ const createProductIntoDB = async (productData: IProduct) => {
 };
 
 const getAllProductsFromDB = async (searchWord: string) => {
-  // const products = await Product.find(filter).sort({ createdAt: -1 });
   const result = await ProductModel.aggregate([
     {
       $match: {

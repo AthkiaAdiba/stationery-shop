@@ -8,6 +8,12 @@ const orderSchema = new Schema<IOrder>(
       trim: true,
       required: [true, 'Email is Required!'],
       unique: true,
+      validate: {
+        validator: function (value: string) {
+          return /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/.test(value);
+        },
+        message: '{VALUE} is not a valid email',
+      },
     },
     product: {
       type: String,
@@ -17,16 +23,18 @@ const orderSchema = new Schema<IOrder>(
     quantity: {
       type: Number,
       trim: true,
-      min: [0, 'Quantity should be a positive number!'],
+      min: [1, 'Quantity should be at least 1!'],
       required: [true, 'Quantity is required!'],
-    },
-    totalPrice: {
-      type: Number,
-      trim: true,
       validate: {
         validator: Number.isInteger,
         message: (props) => `${props.value} is not an integer value.`,
       },
+    },
+    totalPrice: {
+      type: Number,
+      trim: true,
+      required: [true, 'Total price is required!'],
+      min: [1, 'Total price should be a positive number!'],
     },
   },
   { timestamps: true },
