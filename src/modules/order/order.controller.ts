@@ -4,12 +4,12 @@ import { orderServices } from './order.service';
 const createOrder = async (req: Request, res: Response) => {
   try {
     const orderData = req.body;
-    console.log(orderData.product);
+    // console.log(orderData.product);
 
     const product = await orderServices.getSingleProductFromDB(
       orderData?.product,
     );
-    console.log(product);
+    // console.log(product);
 
     if (!product) {
       return res.status(400).json({
@@ -48,6 +48,27 @@ const createOrder = async (req: Request, res: Response) => {
   }
 };
 
+const calculateRevenue = async (req: Request, res: Response) => {
+  try {
+    const totalRevenue = await orderServices.calculateRevenueFromDB();
+
+    res.status(200).json({
+      message: 'Revenue calculated successfully',
+      status: true,
+      data: {
+        totalRevenue,
+      },
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: error.message || 'Something went wrong!',
+      success: false,
+      error: error,
+    });
+  }
+};
+
 export const orderControllers = {
   createOrder,
+  calculateRevenue,
 };
