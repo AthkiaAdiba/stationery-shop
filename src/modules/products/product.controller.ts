@@ -17,6 +17,7 @@ const createProduct = async (req: Request, res: Response) => {
       message: error.message || 'Something went wrong!',
       success: false,
       error: error,
+      stack: null,
     });
   }
 };
@@ -37,6 +38,7 @@ const getAllProducts = async (req: Request, res: Response) => {
       success: false,
       message: error.message || 'Resource not found!',
       error: error,
+      stack: null,
     });
   }
 };
@@ -47,11 +49,18 @@ const getSingleProduct = async (req: Request, res: Response) => {
 
     const result = await productServices.getSingleProductFromDB(productId);
 
-    res.status(200).json({
-      message: 'Product retrieved successfully!',
-      status: true,
-      data: result,
-    });
+    if (!result) {
+      res.status(400).json({
+        message: 'Product is not found!',
+        status: false,
+      });
+    } else {
+      res.status(200).json({
+        message: 'Product retrieved successfully!',
+        status: true,
+        data: result,
+      });
+    }
   } catch (error) {
     res.status(500).json({
       success: false,

@@ -7,7 +7,6 @@ const orderSchema = new Schema<IOrder>(
       type: String,
       trim: true,
       required: [true, 'Email is Required!'],
-      unique: true,
       validate: {
         validator: function (value: string) {
           return /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/.test(value);

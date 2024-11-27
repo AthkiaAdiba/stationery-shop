@@ -4,46 +4,58 @@ import { orderServices } from './order.service';
 const createOrder = async (req: Request, res: Response) => {
   try {
     const orderData = req.body;
-    // console.log(orderData.product);
 
     const product = await orderServices.getSingleProductFromDB(
       orderData?.product,
     );
-    // console.log(product);
+
+    let response: { status: number; body: any } | null = null;
 
     if (!product) {
-      return res.status(400).json({
-        message: 'Product not found',
-        success: false,
-      });
+      response = {
+        status: 400,
+        body: {
+          message: 'Product not found',
+          success: false,
+        },
+      };
+    } else if (product.quantity < orderData.quantity) {
+      response = {
+        status: 400,
+        body: {
+          message: 'Insufficient stock available',
+          success: false,
+        },
+      };
+    } else {
+      product.quantity -= orderData.quantity;
+      if (product.quantity === 0) {
+        product.inStock = false;
+      }
+
+      await product.save();
+
+      const result = await orderServices.createOrderIntoDB(orderData);
+
+      response = {
+        status: 200,
+        body: {
+          success: true,
+          message: 'Order created successfully!',
+          data: result,
+        },
+      };
     }
 
-    if (product.quantity < orderData.quantity) {
-      return res.status(400).json({
-        message: 'Insufficient stock available',
-        success: false,
-      });
+    if (response) {
+      res.status(response.status).json(response.body);
     }
-
-    product.quantity -= orderData.quantity;
-    if (product.quantity === 0) {
-      product.inStock = false;
-    }
-
-    await product.save();
-
-    const result = await orderServices.createOrderIntoDB(orderData);
-
-    return res.status(200).json({
-      success: true,
-      message: 'Order created successfully!',
-      data: result,
-    });
   } catch (error) {
     res.status(500).json({
       message: error.message || 'Something went wrong!',
       success: false,
       error: error,
+      stack: null,
     });
   }
 };
@@ -54,7 +66,7 @@ const calculateRevenue = async (req: Request, res: Response) => {
 
     res.status(200).json({
       message: 'Revenue calculated successfully',
-      status: true,
+      success: true,
       data: {
         totalRevenue,
       },
@@ -64,6 +76,7 @@ const calculateRevenue = async (req: Request, res: Response) => {
       message: error.message || 'Something went wrong!',
       success: false,
       error: error,
+      stack: null,
     });
   }
 };
