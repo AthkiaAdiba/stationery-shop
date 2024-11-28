@@ -12,7 +12,7 @@ const createProduct = async (req: Request, res: Response) => {
       message: 'Product created successfully!',
       data: result,
     });
-  } catch (error) {
+  } catch (error: any) {
     res.status(500).json({
       message: error.message || 'Something went wrong!',
       success: false,
@@ -33,7 +33,7 @@ const getAllProducts = async (req: Request, res: Response) => {
       status: true,
       data: result,
     });
-  } catch (error: unknown) {
+  } catch (error: any) {
     res.status(500).json({
       success: false,
       message: error.message || 'Product is not found!',
@@ -61,7 +61,7 @@ const getSingleProduct = async (req: Request, res: Response) => {
         data: result,
       });
     }
-  } catch (error) {
+  } catch (error: any) {
     res.status(500).json({
       success: false,
       message: error.message || 'Resource not found!',
@@ -86,7 +86,7 @@ const updateProduct = async (req: Request, res: Response) => {
       status: true,
       data: result,
     });
-  } catch (error) {
+  } catch (error: any) {
     res.status(500).json({
       success: false,
       message: error.message || 'Something went wrong!',
@@ -100,14 +100,14 @@ const deleteProduct = async (req: Request, res: Response) => {
   try {
     const { productId } = req.params;
 
-    const result = await productServices.deleteSingleProductFromDB(productId);
+    await productServices.deleteSingleProductFromDB(productId);
 
     res.status(200).json({
       message: 'Product deleted successfully',
       status: true,
       data: {},
     });
-  } catch (error) {
+  } catch (error: any) {
     res.status(500).json({
       success: false,
       message: error.message || 'Something went wrong!',

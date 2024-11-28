@@ -1,7 +1,7 @@
 import express, { Application, Request, Response } from 'express';
 import cors from 'cors';
-import { productRouters } from './modules/products/product.route';
-import { orderRouters } from './modules/order/order.route';
+import { productRouters } from './app/modules/products/product.route';
+import { orderRouters } from './app/modules/order/order.route';
 const app: Application = express();
 
 // parser

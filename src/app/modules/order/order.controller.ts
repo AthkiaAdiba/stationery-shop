@@ -9,7 +9,7 @@ const createOrder = async (req: Request, res: Response) => {
       orderData?.product,
     );
 
-    let response: { status: number; body: any } | null = null;
+    let response: { status: number; body: unknown } | null = null;
 
     if (!product) {
       response = {
@@ -50,7 +50,7 @@ const createOrder = async (req: Request, res: Response) => {
     if (response) {
       res.status(response.status).json(response.body);
     }
-  } catch (error) {
+  } catch (error: any) {
     res.status(500).json({
       message: error.message || 'Something went wrong!',
       success: false,
@@ -71,7 +71,7 @@ const calculateRevenue = async (req: Request, res: Response) => {
         totalRevenue,
       },
     });
-  } catch (error) {
+  } catch (error: any) {
     res.status(500).json({
       message: error.message || 'Something went wrong!',
       success: false,
