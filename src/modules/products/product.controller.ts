@@ -36,7 +36,7 @@ const getAllProducts = async (req: Request, res: Response) => {
   } catch (error: unknown) {
     res.status(500).json({
       success: false,
-      message: error.message || 'Resource not found!',
+      message: error.message || 'Product is not found!',
       error: error,
       stack: null,
     });
@@ -66,6 +66,7 @@ const getSingleProduct = async (req: Request, res: Response) => {
       success: false,
       message: error.message || 'Resource not found!',
       error: error,
+      stack: null,
     });
   }
 };
@@ -88,8 +89,9 @@ const updateProduct = async (req: Request, res: Response) => {
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: error.message || 'Resource not found!',
+      message: error.message || 'Something went wrong!',
       error: error,
+      stack: null,
     });
   }
 };
@@ -108,8 +110,9 @@ const deleteProduct = async (req: Request, res: Response) => {
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: error.message || 'Resource not found!',
+      message: error.message || 'Something went wrong!',
       error: error,
+      stack: null,
     });
   }
 };
