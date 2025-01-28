@@ -1,19 +1,18 @@
-import { Document } from 'mongoose';
-
-export interface IProduct extends Document {
+export type IProduct = {
   name: string;
+  title: string;
   brand: string;
   price: number;
+  author?: string;
+  image: string;
   category:
-    | 'writing'
-    | 'office'
-    | 'supplies'
-    | 'art supplies'
-    | 'educational'
-    | 'technology';
+    | 'pens'
+    | 'notebooks'
+    | 'desk accessories'
+    | 'markers & highlighters'
+    | 'frames'
+    | 'books';
   description: string;
   quantity: number;
   inStock: boolean;
-  createdAt: Date;
-  updatedAt: Date;
-}
+};

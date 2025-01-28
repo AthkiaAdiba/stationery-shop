@@ -1,10 +1,34 @@
-import { Document } from 'mongoose';
+import { Types } from 'mongoose';
 
-export interface IOrder extends Document {
-  email: string;
-  product: string;
-  quantity: number;
+// export type IOrder = {
+//   user: Types.ObjectId;
+//   product: Types.ObjectId;
+//   quantity: number;
+//   totalPrice: number;
+//   status: 'Pending' | 'Shipping';
+// };
+
+export type IOrder = {
+  user: Types.ObjectId;
+  products: {
+    product: Types.ObjectId;
+    quantity: number;
+  }[];
   totalPrice: number;
-  createdAt: Date;
-  updatedAt: Date;
-}
+  orderStatus: 'Pending' | 'Shipped';
+  status: 'Pending' | 'Paid' | 'Shipped' | 'Completed' | 'Cancelled';
+  address?: string;
+  productErrors?: {
+    product: string;
+    message: string;
+  }[];
+  transaction: {
+    id: string;
+    transactionStatus: string;
+    bank_status: string;
+    sp_code: string;
+    sp_message: string;
+    method: string;
+    date_time: string;
+  };
+};

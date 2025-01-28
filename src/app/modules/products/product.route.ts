@@ -1,12 +1,30 @@
 import express from 'express';
-import { productControllers } from './product.controller';
+import { ProductControllers } from './product.controller';
+import validateRequest from '../../middlewares/validateRequest';
+import { ProductValidations } from './product.validation';
+import auth from '../../middlewares/auth';
+import { USER_ROLE } from '../auth/auth.constant';
 
 const router = express.Router();
 
-router.post('/', productControllers.createProduct);
-router.get('/:productId', productControllers.getSingleProduct);
-router.get('/', productControllers.getAllProducts);
-router.put('/:productId', productControllers.updateProduct);
-router.delete('/:productId', productControllers.deleteProduct);
+router.post(
+  '/',
+  auth(USER_ROLE.admin),
+  validateRequest(ProductValidations.createProductValidationSchema),
+  ProductControllers.createProduct,
+);
+router.get('/:productId', ProductControllers.getSingleProduct);
+router.get('/', ProductControllers.getAllProducts);
+router.put(
+  '/:productId',
+  auth(USER_ROLE.admin),
+  validateRequest(ProductValidations.updateProductValidationSchema),
+  ProductControllers.updateProduct,
+);
+router.delete(
+  '/:productId',
+  auth(USER_ROLE.admin),
+  ProductControllers.deleteProduct,
+);
 
-export const productRouters = router;
+export const ProductRoutes = router;

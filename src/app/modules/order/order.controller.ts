@@ -1,64 +1,83 @@
 import { Request, Response } from 'express';
 import { orderServices } from './order.service';
+import catchAsync from '../../utils/catchAsync';
+import sendResponse from '../../utils/sendResponse';
+import { StatusCodes } from 'http-status-codes';
 
-const createOrder = async (req: Request, res: Response) => {
-  try {
-    const orderData = req.body;
+const createOrder = catchAsync(async (req, res) => {
+  const user = req?.user?.userId;
+  const result = await orderServices.createOrderIntoDB(user, req.body, req.ip!);
 
-    const product = await orderServices.getSingleProductFromDB(
-      orderData?.product,
-    );
+  sendResponse(res, {
+    statusCode: StatusCodes.OK,
+    success: true,
+    message: 'Order created successfully!',
+    data: result,
+  });
+});
 
-    let response: { status: number; body: unknown } | null = null;
+const verifyPayment = catchAsync(async (req, res) => {
+  const result = await orderServices.verifyPayment(
+    req.query.order_id as string,
+  );
 
-    if (!product) {
-      response = {
-        status: 400,
-        body: {
-          message: 'Product not found',
-          success: false,
-        },
-      };
-    } else if (product.quantity < orderData.quantity) {
-      response = {
-        status: 400,
-        body: {
-          message: 'Insufficient stock available',
-          success: false,
-        },
-      };
-    } else {
-      product.quantity -= orderData.quantity;
-      if (product.quantity === 0) {
-        product.inStock = false;
-      }
+  sendResponse(res, {
+    statusCode: StatusCodes.OK,
+    success: true,
+    message: 'Order verified successfully!',
+    data: result,
+  });
+});
 
-      await product.save();
+const getMyOrders = catchAsync(async (req, res) => {
+  const userId = req.user.userId;
 
-      const result = await orderServices.createOrderIntoDB(orderData);
+  const result = await orderServices.getMyOrdersFromDB(userId);
 
-      response = {
-        status: 200,
-        body: {
-          success: true,
-          message: 'Order created successfully!',
-          data: result,
-        },
-      };
-    }
+  sendResponse(res, {
+    statusCode: StatusCodes.OK,
+    success: true,
+    message: 'My Orders got successfully!',
+    data: result,
+  });
+});
 
-    if (response) {
-      res.status(response.status).json(response.body);
-    }
-  } catch (error: any) {
-    res.status(500).json({
-      message: error.message || 'Something went wrong!',
-      success: false,
-      error: error,
-      stack: null,
-    });
-  }
-};
+const getAllOrders = catchAsync(async (req, res) => {
+  const result = await orderServices.getAllOrders();
+
+  sendResponse(res, {
+    statusCode: StatusCodes.OK,
+    success: true,
+    message: 'Orders got successfully!',
+    data: result,
+  });
+});
+
+const updateOrderStatus = catchAsync(async (req, res) => {
+  const { orderId } = req.params;
+
+  const result = await orderServices.updateOrderStatusIntoDB(orderId);
+
+  sendResponse(res, {
+    statusCode: StatusCodes.OK,
+    success: true,
+    message: 'Order is updated successfully!',
+    data: result,
+  });
+});
+
+const deleteSingleOrder = catchAsync(async (req, res) => {
+  const { orderId } = req.params;
+
+  const result = await orderServices.deleteSingleOrderFromDB(orderId);
+
+  sendResponse(res, {
+    statusCode: StatusCodes.OK,
+    success: true,
+    message: 'Order is deleted successfully!',
+    data: result,
+  });
+});
 
 const calculateRevenue = async (req: Request, res: Response) => {
   try {
@@ -71,6 +90,7 @@ const calculateRevenue = async (req: Request, res: Response) => {
         totalRevenue,
       },
     });
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     res.status(500).json({
       message: error.message || 'Something went wrong!',
@@ -81,7 +101,12 @@ const calculateRevenue = async (req: Request, res: Response) => {
   }
 };
 
-export const orderControllers = {
+export const OrderControllers = {
   createOrder,
+  verifyPayment,
   calculateRevenue,
+  getMyOrders,
+  getAllOrders,
+  updateOrderStatus,
+  deleteSingleOrder,
 };

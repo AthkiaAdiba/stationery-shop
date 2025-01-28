@@ -1,24 +1,28 @@
+import QueryBuilder from '../../builder/QueryBuilder';
 import { IProduct } from './product.interface';
 import { ProductModel } from './product.model';
 
-const createProductIntoDB = async (productData: IProduct) => {
-  const result = await ProductModel.create(productData);
+const createProductIntoDB = async (payload: IProduct) => {
+  const result = await ProductModel.create(payload);
 
   return result;
 };
 
-const getAllProductsFromDB = async (searchWord: string) => {
-  const result = await ProductModel.aggregate([
-    {
-      $match: {
-        $or: [
-          { name: { $regex: searchWord, $options: 'i' } },
-          { brand: { $regex: searchWord, $options: 'i' } },
-          { category: { $regex: searchWord, $options: 'i' } },
-        ],
-      },
-    },
-  ]);
+const getAllProductsFromDB = async (query: Record<string, unknown>) => {
+  const productSearchableFields = [
+    'name',
+    'title',
+    'brand',
+    'category',
+    'description',
+  ];
+
+  const productQuery = new QueryBuilder(ProductModel.find(), query)
+    .search(productSearchableFields)
+    .filter()
+    .priceFilter();
+
+  const result = await productQuery.modelQuery;
 
   return result;
 };

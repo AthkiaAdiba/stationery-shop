@@ -9,8 +9,7 @@ import { User } from '../modules/auth/auth.model';
 
 const auth = (...requiredRoles: TUserRole[]) => {
   return catchAsync(async (req: Request, res: Response, next: NextFunction) => {
-    const RowToken = req.headers.authorization;
-    const token = RowToken?.split(' ')[1];
+    const token = req.headers.authorization;
 
     // if the token is sent from the client
     if (!token) {
@@ -26,6 +25,7 @@ const auth = (...requiredRoles: TUserRole[]) => {
     // console.log(decoded);
 
     const { role, userEmail } = decoded;
+    // console.log(role, userEmail);
 
     //   checking if the user is exists
     const user = await User.isUserExists(userEmail);
@@ -38,6 +38,8 @@ const auth = (...requiredRoles: TUserRole[]) => {
     if (requiredRoles && !requiredRoles.includes(role)) {
       throw new AppError(StatusCodes.UNAUTHORIZED, 'You are not authorized!');
     }
+
+    console.log('hhggggg');
 
     // decoded undefined
     req.user = decoded as JwtPayload;
