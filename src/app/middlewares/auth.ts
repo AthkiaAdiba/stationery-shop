@@ -35,11 +35,13 @@ const auth = (...requiredRoles: TUserRole[]) => {
       throw new AppError(StatusCodes.NOT_FOUND, 'This user is not found!');
     }
 
+    if (user.status === 'deactivated') {
+      throw new AppError(StatusCodes.NOT_FOUND, 'The user is deactivated!');
+    }
+
     if (requiredRoles && !requiredRoles.includes(role)) {
       throw new AppError(StatusCodes.UNAUTHORIZED, 'You are not authorized!');
     }
-
-    console.log('hhggggg');
 
     // decoded undefined
     req.user = decoded as JwtPayload;

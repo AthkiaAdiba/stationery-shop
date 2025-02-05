@@ -4,6 +4,7 @@ import { TLoginUser, TUser } from './auth.interface';
 import { User } from './auth.model';
 import jwt, { JwtPayload } from 'jsonwebtoken';
 import config from '../../config';
+import { createToken } from './auth.utils';
 
 const registerUserIntoDB = async (payload: TUser) => {
   const result = await User.create(payload);
@@ -45,18 +46,16 @@ const loginUserIntoDB = async (payload: TLoginUser) => {
     name: user?.name,
   };
 
-  const accessToken = jwt.sign(
-    {
-      ...jwtPayload,
-    },
+  const accessToken = createToken(
+    jwtPayload,
     config.jwt_access_secret as string,
-    { expiresIn: '5d' },
+    config.jwt_access_expires_in as string,
   );
 
-  const refreshToken = jwt.sign(
-    { ...jwtPayload },
+  const refreshToken = createToken(
+    jwtPayload,
     config.jwt_refresh_secret as string,
-    { expiresIn: '365d' },
+    config.jwt_refresh_expires_in as string,
   );
 
   return {
@@ -102,12 +101,10 @@ const refreshToken = async (token: string) => {
     name: user?.name,
   };
 
-  const accessToken = jwt.sign(
-    {
-      ...jwtPayload,
-    },
+  const accessToken = createToken(
+    jwtPayload,
     config.jwt_access_secret as string,
-    { expiresIn: '5d' },
+    config.jwt_access_expires_in as string,
   );
 
   return {

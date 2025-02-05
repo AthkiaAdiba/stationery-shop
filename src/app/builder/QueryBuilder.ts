@@ -44,6 +44,12 @@ class QueryBuilder<T> {
     return this;
   }
 
+  stockFilter() {
+    this.modelQuery = this.modelQuery.find({ inStock: true });
+
+    return this;
+  }
+
   priceFilter() {
     const priceQueryField = this?.query?.price;
     if (priceQueryField) {

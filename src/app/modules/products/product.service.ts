@@ -9,15 +9,18 @@ const createProductIntoDB = async (payload: IProduct) => {
 };
 
 const getAllProductsFromDB = async (query: Record<string, unknown>) => {
+  console.log(query);
   const productSearchableFields = [
     'name',
     'title',
     'brand',
     'category',
     'description',
+    'author',
   ];
 
   const productQuery = new QueryBuilder(ProductModel.find(), query)
+    .stockFilter()
     .search(productSearchableFields)
     .filter()
     .priceFilter();

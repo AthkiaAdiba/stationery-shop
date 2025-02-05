@@ -24,7 +24,7 @@ const createOrderIntoDB = async (
     throw new AppError(StatusCodes.NOT_FOUND, 'Please create your account!');
   }
 
-  if (userExists.status === 'inActive') {
+  if (userExists.status === 'deactivated') {
     throw new AppError(StatusCodes.NOT_FOUND, 'The user is inActive!');
   }
 
@@ -235,7 +235,7 @@ const getMyOrdersFromDB = async (userId: string) => {
     throw new AppError(StatusCodes.NOT_FOUND, 'User Not Found!');
   }
 
-  if (userExists?.status === 'inActive') {
+  if (userExists?.status === 'deactivated') {
     throw new AppError(StatusCodes.NOT_FOUND, 'The user is inActive!');
   }
 

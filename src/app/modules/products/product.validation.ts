@@ -11,12 +11,12 @@ const createProductValidationSchema = z.object({
     price: z.number({ required_error: 'Product brand is required!' }),
     image: z.string({ required_error: 'Product image is required!' }),
     category: z.enum([
-      'pens',
-      'notebooks',
-      'desk accessories',
-      'markers & highlighters',
-      'frames',
-      'books',
+      'pen',
+      'notebook',
+      'desk accessory',
+      'markers & highlighter',
+      'frame',
+      'book',
     ]),
     description: z.string({
       required_error: 'Product description is required!',
@@ -39,12 +39,12 @@ const updateProductValidationSchema = z.object({
       .optional(),
     category: z
       .enum([
-        'pens & pencils',
-        'notebooks',
-        'desk accessories',
-        'markers & highlighters',
-        'frames',
-        'books',
+        'pen',
+        'notebook',
+        'desk accessory',
+        'markers & highlighter',
+        'frame',
+        'book',
       ])
       .optional(),
     author: z.string().optional(),

@@ -9,8 +9,9 @@ export interface TUser {
   password: string;
   address: string;
   phone: string;
+  image: string;
   role: 'admin' | 'user';
-  status: 'active' | 'inActive';
+  status: 'active' | 'deactivated';
 }
 
 export type TLoginUser = {

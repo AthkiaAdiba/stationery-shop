@@ -31,17 +31,20 @@ const userSchema = new Schema<TUser, UserModel>(
       required: [true, 'Phone is required!'],
       trim: true,
     },
+    image: {
+      type: String,
+      required: [true, 'Image is required!'],
+      trim: true,
+    },
     role: {
       type: String,
       enum: ['admin', 'user'],
       default: 'user',
-      trim: true,
     },
     status: {
       type: String,
-      enum: ['active', 'inActive'],
+      enum: ['active', 'deactivated'],
       default: 'active',
-      trim: true,
     },
   },
   {

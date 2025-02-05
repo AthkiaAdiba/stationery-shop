@@ -39,12 +39,12 @@ const productSchema = new Schema<IProduct>(
       lowercase: true,
       enum: {
         values: [
-          'pens',
-          'notebooks',
-          'desk accessories',
-          'markers & highlighters',
-          'frames',
-          'books',
+          'pen',
+          'notebook',
+          'desk accessory',
+          'markers & highlighter',
+          'frame',
+          'book',
         ],
         message: '{VALUE} is not valid category!',
       },

@@ -7,8 +7,9 @@ const registerValidationSchema = z.object({
     password: z.string({ required_error: 'Password is required!' }),
     address: z.string({ required_error: 'Address is required!' }),
     phone: z.string({ required_error: 'Phone is required!' }),
+    image: z.string({ required_error: 'Image is required!' }),
     role: z.enum(['admin', 'user']).optional(),
-    status: z.enum(['active', 'inActive']).optional(),
+    status: z.enum(['active', 'deactivated']).optional(),
   }),
 });
 

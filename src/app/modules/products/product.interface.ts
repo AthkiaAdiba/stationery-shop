@@ -6,12 +6,12 @@ export type IProduct = {
   author?: string;
   image: string;
   category:
-    | 'pens'
-    | 'notebooks'
-    | 'desk accessories'
-    | 'markers & highlighters'
-    | 'frames'
-    | 'books';
+    | 'pen'
+    | 'notebook'
+    | 'desk accessory'
+    | 'markers & highlighter'
+    | 'frame'
+    | 'book';
   description: string;
   quantity: number;
   inStock: boolean;
