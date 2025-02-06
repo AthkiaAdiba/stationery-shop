@@ -79,7 +79,27 @@ const orderSchema = new Schema<IOrder>(
       enum: ['Pending', 'Paid', 'Shipped', 'Completed', 'Cancelled'],
       default: 'Pending',
     },
+    name: {
+      type: String,
+      trim: true,
+    },
+    email: {
+      type: String,
+      trim: true,
+    },
     address: {
+      type: String,
+      trim: true,
+    },
+    phone: {
+      type: String,
+      trim: true,
+    },
+    shippingPhone: {
+      type: String,
+      trim: true,
+    },
+    shippingAddress: {
       type: String,
       trim: true,
     },

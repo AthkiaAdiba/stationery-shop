@@ -139,7 +139,14 @@ const createOrderIntoDB = async (
     const order = {
       user: userId,
       products: singleProduct,
-      address: orderData.address,
+      name: userExists.name,
+      email: userExists.email,
+      phone: userExists.phone,
+      address: userExists.address,
+      shippingPhone: orderData.phone ? orderData.phone : userExists.phone,
+      shippingAddress: orderData.address
+        ? orderData.address
+        : userExists.address,
       totalPrice,
       productErrors: productErrors,
     };
@@ -152,10 +159,12 @@ const createOrderIntoDB = async (
       order_id: result[0]._id,
       currency: 'BDT',
       customer_name: userExists.name,
-      customer_address: userExists.address,
+      customer_address: orderData.address
+        ? orderData.address
+        : userExists.address,
       customer_email: userExists.email,
-      customer_phone: userExists.phone,
-      customer_city: userExists.address,
+      customer_phone: orderData.phone ? orderData.phone : userExists.phone,
+      customer_city: orderData.address ? orderData.address : userExists.address,
       client_ip, // Update with real client IP
     };
 
@@ -259,7 +268,7 @@ const updateOrderStatusIntoDB = async (id: string) => {
 
   const result = await OrderModel.findByIdAndUpdate(
     id,
-    { orderStatus: 'Shipping' },
+    { orderStatus: 'Shipped' },
     { new: true },
   );
 
@@ -271,6 +280,13 @@ const deleteSingleOrderFromDB = async (id: string) => {
 
   if (!order) {
     throw new AppError(StatusCodes.NOT_FOUND, 'This Order is not available!!');
+  }
+
+  if (order?.orderStatus === 'Shipped') {
+    throw new AppError(
+      StatusCodes.NOT_FOUND,
+      'You can not delete the order now, because it has been shipped!',
+    );
   }
 
   const result = await OrderModel.findByIdAndDelete(id);

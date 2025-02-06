@@ -1,13 +1,5 @@
 import { Types } from 'mongoose';
 
-// export type IOrder = {
-//   user: Types.ObjectId;
-//   product: Types.ObjectId;
-//   quantity: number;
-//   totalPrice: number;
-//   status: 'Pending' | 'Shipping';
-// };
-
 export type IOrder = {
   user: Types.ObjectId;
   products: {
@@ -17,7 +9,12 @@ export type IOrder = {
   totalPrice: number;
   orderStatus: 'Pending' | 'Shipped';
   status: 'Pending' | 'Paid' | 'Shipped' | 'Completed' | 'Cancelled';
+  name?: string;
+  email?: string;
   address?: string;
+  phone?: string;
+  shippingPhone?: string;
+  shippingAddress?: string;
   productErrors?: {
     product: string;
     message: string;
