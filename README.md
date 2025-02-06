@@ -6,7 +6,7 @@ Stationery Shop is a robust server-side application designed to power the operat
 
 https://l2-assignment-4-coral.vercel.app
 
-## 🚀 Live Demo
+## 🚀 Backend Live Demo
 
 https://stationery-shop-b4-a2-v5.vercel.app
 
