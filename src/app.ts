@@ -8,7 +8,15 @@ const app: Application = express();
 
 // parser
 app.use(express.json());
-app.use(cors({ origin: ['http://localhost:5173'], credentials: true }));
+app.use(
+  cors({
+    origin: [
+      'http://localhost:5173',
+      'https://l2-assignment-4-coral.vercel.app',
+    ],
+    credentials: true,
+  }),
+);
 app.use(cookieParser());
 
 // application routes

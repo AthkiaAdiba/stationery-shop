@@ -9,7 +9,7 @@ const createProductIntoDB = async (payload: IProduct) => {
 };
 
 const getAllProductsFromDB = async (query: Record<string, unknown>) => {
-  console.log(query);
+  // console.log(query);
   const productSearchableFields = [
     'name',
     'title',

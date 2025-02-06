@@ -24,7 +24,7 @@ const loginUserIntoDB = async (payload: TLoginUser) => {
     throw new AppError(StatusCodes.NOT_FOUND, 'The user _id is not found!');
   }
 
-  if (user.status === 'inActive') {
+  if (user.status === 'deactivated') {
     throw new AppError(StatusCodes.NOT_FOUND, 'The user is inActive!');
   }
 
@@ -85,7 +85,7 @@ const refreshToken = async (token: string) => {
     throw new AppError(StatusCodes.NOT_FOUND, 'The user _id is not found!');
   }
 
-  if (user.status === 'inActive') {
+  if (user.status === 'deactivated') {
     throw new AppError(StatusCodes.NOT_FOUND, 'The user is inActive!');
   }
 
