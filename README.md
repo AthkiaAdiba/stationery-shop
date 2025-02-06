@@ -13,14 +13,19 @@ https://stationery-shop-b4-a2-v5.vercel.app
 - 🛠️ **CRUD Operations:** Full support for creating, reading, updating, and deleting products.
 
 - 🔒 **Secure Environment:** Securely manage environment variables with dotenv.
+- 🔑 **Token:** Refresh and access token are provided in login time.
 
 - 📦 **Error Handling:** Comprehensive error responses for better debugging and API usage.
 
-- 🗂️ **Categorization:** Filter products by categories, brands, and name range.
+- 🗂️ **Categorization:** Filter, searching products by categories, brands, name, and price range.
 
 - 🛡️ **Secure Database Operations:** Data stored and managed securely using MongoDB.
 
 - ⚙️ **Scalable Design:** Built to handle growing demands and datasets.
+- 💳 **Secure Payment Integration:** Secure payment integration has been implemented with **Shurjopay**. Users can order their chose products.
+
+- 🔒 **Bcrypt Password Hashing:** Bcrypt password hashing has been implemented To secure users password.
+- 👥 **Admin Role:** Admin role has been implemented. Only admin can add, update, and delete the product. Also admin manages orders and users.
 
 ## 🛠️ Technologies Used
 
@@ -50,6 +55,7 @@ Follow these steps to set up and run the backend server locally:
 - **Node.js** (v14 or higher)
 - **npm** (v6 or higher)
 - **MongoDB** (Ensure MongoDB is installed and running locally or use a remote database)
+- **Shurjopay** merchant account and API credentials.
 
 ### Clone the Repository
 
@@ -71,6 +77,16 @@ Create a `.env` file in the root directory with the following structure:
 ```bash
 MONGO_URI=your_database_url
 PORT=5000
+BCRYPT_SALT_ROUNDS=your_bcrypt_salt_rounds
+JWT_ACCESS_SECRET=your_jwt_access_secret
+JWT_ACCESS_EXPIRES_IN=your_jwt_access_expires_in
+JWT_REFRESH_SECRET=your_jwt_refresh_secret
+JWT_REFRESH_EXPIRES_IN=your_jwt_refresh_expires_in
+SP_ENDPOINT=https://sandbox.shurjopayment.com
+SP_USERNAME=sp_sandbox
+SP_PASSWORD=pyyk97hu&6u6
+SP_PREFIX=SP
+SP_RETURN_URL=your_return_url
 ```
 
 ### Run the Server
