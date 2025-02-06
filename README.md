@@ -2,6 +2,10 @@
 
 Stationery Shop is a robust server-side application designed to power the operations of an e-commerce platform specializing in stationery products. Built with modern web technologies, it provides a secure, scalable, and efficient backend solution to manage data and handle client requests.
 
+## 🚀 Fronted Live Demo
+
+https://l2-assignment-4-coral.vercel.app
+
 ## 🚀 Live Demo
 
 https://stationery-shop-b4-a2-v5.vercel.app
